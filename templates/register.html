@@ -1,0 +1,18 @@
+{% extends 'index.html' %}
+
+{% block register %}
+    <div class="back">
+        <form method="post" class="register">
+            <input class="buttons_reg" name="login" id="login" type="text" placeholder="Введите логин">
+            <input class="buttons_reg" name="password" id="password" type="password" placeholder="Введите пароль">
+            <input class="buttons_reg" name="password2" id="password2" type="password" placeholder="Повторите пароль">
+            <input class="buttons_reg" type="submit" value="Отправить">
+            {% block ErrorLogin %}
+            {% endblock %}
+            {% block ErrorPassword %}
+            {% endblock %}
+            {% block AllGood %}
+            {% endblock %}
+        </form>
+    </div>
+{% endblock %}
