@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user
+from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from UserLogin import UserLogin
 from werkzeug.security import check_password_hash, generate_password_hash
 
@@ -12,6 +12,13 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///Log_Pas.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 login_manager = LoginManager(app)
+
+
+class Messages(db.Model, UserMixin):
+    id = db.Column(db.Integer, primary_key=True)
+    sender = db.Column(db.String(300), nullable=False)
+    recipient = db.Column(db.String(300), nullable=False)
+    message = db.Column(db.String(300), nullable=False)
 
 
 class User(db.Model, UserMixin):
@@ -51,7 +58,11 @@ def logout():
 
 @app.route('/')
 def main():
-    return render_template('index.html')
+    try:
+        print(current_user.login)
+        return render_template('main.html')
+    except:
+        return render_template('user_anonim.html')
 
 
 @app.route('/register', methods=['POST', 'GET'])
@@ -79,10 +90,10 @@ def reg():
         return render_template("register.html")
 
 
-@app.route('/data')
+@app.route('/main')
 @login_required
 def data():
-    return "Все хорошо."
+    return render_template('main.html')
 
 
 if __name__ == '__main__':

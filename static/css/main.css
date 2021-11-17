@@ -82,3 +82,16 @@ body {
     color: #65ae77;
     text-align: center;
 }
+
+.back_login {
+    background: gray;
+    height: 360px;
+    width: 400px;
+    border: 5px solid #3c3f41;
+    border-radius: 20px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    top: 20%;
+}

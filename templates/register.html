@@ -1,4 +1,4 @@
-{% extends 'index.html' %}
+{% extends 'user_anonim.html' %}
 
 {% block register %}
     <div class="back">
@@ -6,7 +6,7 @@
             <input class="buttons_reg" name="login" id="login" type="text" placeholder="Введите логин">
             <input class="buttons_reg" name="password" id="password" type="password" placeholder="Введите пароль">
             <input class="buttons_reg" name="password2" id="password2" type="password" placeholder="Повторите пароль">
-            <input class="buttons_reg" type="submit" value="Отправить">
+            <input class="buttons_reg" type="submit" value="Зарегистрироваться">
             {% block ErrorLogin %}
             {% endblock %}
             {% block ErrorPassword %}
