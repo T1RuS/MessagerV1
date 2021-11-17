@@ -5,3 +5,21 @@
             <a class="btn btn-sm btn-outline-secondary" href="/logout"> Выйти</a>
     </div>
 {% endblock %}
+
+{% block main %}
+    <div class="main">
+        <div class="flex hw">
+            <div class="friends-list prokrutka">
+            {% for el in friends %}
+                <div class="friends">
+                    <a class="friends-cur" href="/"> {{ el.login }} </a>
+                </div>
+            {% endfor %}
+            </div>
+            <div class="message prokrutka">
+
+            </div>
+        </div>
+
+    </div>
+{% endblock %}

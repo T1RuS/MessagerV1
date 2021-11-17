@@ -2,6 +2,8 @@ from flask import Flask, render_template, request, redirect, url_for
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
+from sqlalchemy.orm import session
+
 from UserLogin import UserLogin
 from werkzeug.security import check_password_hash, generate_password_hash
 
@@ -42,7 +44,7 @@ def login():
 
         if check_password_hash(user.password, password):
             login_user(user)
-            return redirect(url_for('data'))
+            return redirect(url_for('main'))
         else:
             return render_template('error_password.html')
     else:
@@ -60,7 +62,7 @@ def logout():
 def main():
     try:
         print(current_user.login)
-        return render_template('main.html')
+        return render_template('main.html', friends=db.session.query(User.login).all())
     except:
         return render_template('user_anonim.html')
 
@@ -69,21 +71,20 @@ def main():
 def reg():
     if request.method == "POST":
         if (request.form['password'] == request.form['password2']) and len(request.form['password']) > 5:
-            res = User.query.all()
-            for i in range(len(res)):
-                if res[i].login == request.form['login']:
-                    return render_template("error_login.html")
-            login = request.form['login']
-            password = generate_password_hash(request.form['password'])
-
-            reg = User(login=login, password=password)
-            try:
-                db.session.add(reg)
-                db.session.commit()
-                return redirect(url_for('login'))
-            except:
+            if User.query.filter_by(login=request.form['login']).first():
                 return "Произошла ошибка"
+            else:
+                print('1')
+                login = request.form['login']
+                password = generate_password_hash(request.form['password'])
 
+                reg = User(login=login, password=password)
+                try:
+                    db.session.add(reg)
+                    db.session.commit()
+                    return redirect(url_for('login'))
+                except:
+                    return "Произошла ошибка"
         else:
             return render_template("error_password.html")
     else:

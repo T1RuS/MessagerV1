@@ -59,6 +59,7 @@ body {
 
 .logo p{
     color: #afb1b3;
+    margin-top: -5px;
     font-size: 40px;
 }
 
@@ -94,4 +95,75 @@ body {
     right: 0;
     margin: 0 auto;
     top: 20%;
+}
+
+.prokrutka {
+    border: 1px solid #6e6868; /* размер и цвет границы блока */
+    overflow: auto; /* свойство дл€ прокрутки по горизонтали. јвтоматом, если больше блока */
+}
+
+.flex {
+    display: flex;
+}
+
+.main {
+    text-align: center;
+}
+
+.friends-list {
+    margin-left: 10%;
+    margin-top: 50px;
+    background: rgba(60, 63, 65, 0.50);
+    height: 800px;
+    width: 500px;
+    border-radius: 20px;
+}
+
+.message {
+    background: rgba(60, 63, 65, 0.50);
+    margin-top: 50px;
+    margin-left: 20px;
+    height: 800px;
+    width: 1000px;
+    border-radius: 20px;
+}
+
+.red {
+    color: red;
+    background: red;
+}
+
+.friends {
+    margin-left: 5%;
+    margin-top: 2.5%;
+    background: rgba(60, 63, 65, 0.7);
+    height: 50px;
+    width: 450px;
+    border-radius: 20px;
+    border: 1px solid #6e6868;
+    color: #949191;
+    text-align: center;
+    font-size: 30px;
+}
+
+.friends-list::-webkit-scrollbar {
+    width: 7px;
+}
+
+.friends-list::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0);
+}
+
+.friends-list::-webkit-scrollbar-thumb {
+
+    background: rgba(0, 0, 0, 0);
+}
+
+.friends-cur {
+    text-decoration: none;
+    color: #949191;
+}
+
+.friends-cur:hover {
+    color: #bbbcc0;
 }
