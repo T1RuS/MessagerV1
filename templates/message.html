@@ -1,0 +1,16 @@
+{% extends 'main.html' %}
+
+{% block messages %}
+    <div class="name_recipient">
+        <p class="name">{{ name }}</p>
+    </div>
+    <div class="messages">
+
+    </div>
+    <div>
+        <form method="post" class="send_out">
+            <input class="send_messages" name="mes" id="mes" type="text" placeholder="Введите ваше сообщение.">
+            <input type="submit" class="send" value="Отправить">
+        </form>
+    </div>
+{% endblock %}

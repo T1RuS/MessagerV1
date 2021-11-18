@@ -167,3 +167,54 @@ body {
 .friends-cur:hover {
     color: #bbbcc0;
 }
+
+.name_recipient {
+    width: 990px;
+    height: 50px;
+    background: rgba(115, 113, 113, 0.41);
+    border-radius: 20px;
+    margin-top: 5px;
+    margin-left: 5px;
+}
+
+.messages {
+    margin-top: 10px;
+    width: 990px;
+    margin-left: 5px;
+    height: 669px;
+    background: rgba(115, 113, 113, 0.41);
+    border-radius: 20px;
+}
+
+.send_messages {
+    margin-left: 5px;
+    width: 795px;
+    height: 50px;
+    background: rgba(115, 113, 113, 0.41);
+    border-radius: 20px;
+    font-size: 20px;
+    margin-top: 10px;
+
+}
+
+.send {
+    background: rgba(115, 113, 113, 0.41);
+    border-radius: 20px;
+    margin-left: 5px;
+    height: 50px;
+    width: 185px;
+    color: #949191;
+    font-size: 25px;
+    margin-top: 10px;
+}
+
+.name {
+    color: #949191;
+    font-size: 35px;
+}
+
+.send_out {
+    width: 1000px;
+    height: 100px;
+    display: flex;
+}

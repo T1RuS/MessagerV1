@@ -1,11 +1,9 @@
 from flask import Flask, render_template, request, redirect, url_for
-from datetime import datetime
+from flask_socketio import SocketIO, send
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
-from sqlalchemy.orm import session
-
-from UserLogin import UserLogin
 from werkzeug.security import check_password_hash, generate_password_hash
+from datetime import datetime
 
 
 app = Flask(__name__)
@@ -13,6 +11,7 @@ app.secret_key = 'jhjsakhdjkahjdkhaksjd'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///Log_Pas.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
+sio = SocketIO(app, cors_allowed_origins='*')
 login_manager = LoginManager(app)
 
 
@@ -91,10 +90,14 @@ def reg():
         return render_template("register.html")
 
 
-@app.route('/main')
+@app.route('/message/<string:name>', methods=['POST', 'GET'])
 @login_required
-def data():
-    return render_template('main.html')
+def data(name):
+    if request.method == "POST":
+        print(request.form['mes'])
+        print(name)
+        print(current_user.login)
+    return render_template('message.html', name=name, friends=db.session.query(User.login).all())
 
 
 if __name__ == '__main__':

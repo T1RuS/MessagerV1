@@ -12,12 +12,13 @@
             <div class="friends-list prokrutka">
             {% for el in friends %}
                 <div class="friends">
-                    <a class="friends-cur" href="/"> {{ el.login }} </a>
+                    <a class="friends-cur" href="/message/{{ el.login }}"> {{ el.login }} </a>
                 </div>
             {% endfor %}
             </div>
-            <div class="message prokrutka">
-
+            <div class="message">
+                {% block messages %}
+                {% endblock %}
             </div>
         </div>
 
