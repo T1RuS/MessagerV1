@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for
-from flask_socketio import SocketIO, send
+from flask_socketio import SocketIO, send, emit
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -11,14 +11,14 @@ app.secret_key = 'jhjsakhdjkahjdkhaksjd'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///Log_Pas.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
-sio = SocketIO(app, cors_allowed_origins='*')
+socketio = SocketIO(app)
 login_manager = LoginManager(app)
 
 
 class Messages(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     sender = db.Column(db.String(300), nullable=False)
-    recipient = db.Column(db.String(300), nullable=False)
+    recipient = db.Column(db.String(300), nullable=True)
     message = db.Column(db.String(300), nullable=False)
 
 
@@ -100,5 +100,12 @@ def data(name):
     return render_template('message.html', name=name, friends=db.session.query(User.login).all())
 
 
+@socketio.on('message')
+def handleMessage(msg):
+    print('message: ' + msg)
+    send(msg, broadcast=True)
+
+
 if __name__ == '__main__':
-    app.run()
+    #app.run()
+    socketio.run(app)

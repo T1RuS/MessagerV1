@@ -130,7 +130,6 @@ body {
 
 .red {
     color: red;
-    background: red;
 }
 
 .friends {
@@ -146,15 +145,15 @@ body {
     font-size: 30px;
 }
 
-.friends-list::-webkit-scrollbar {
+.prokrutka::-webkit-scrollbar {
     width: 7px;
 }
 
-.friends-list::-webkit-scrollbar-track {
+.prokrutka::-webkit-scrollbar-track {
     background: rgba(0, 0, 0, 0);
 }
 
-.friends-list::-webkit-scrollbar-thumb {
+.prokrutka::-webkit-scrollbar-thumb {
 
     background: rgba(0, 0, 0, 0);
 }

@@ -1,16 +1,57 @@
 {% extends 'main.html' %}
 
 {% block messages %}
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script type="text/javascript" charset="utf-8">
+    $(document).ready(function (){
+
+        var socket = io.connect('http://127.0.0.1:5000');
+
+        socket.on('connect', function() {
+            socket.send('User has connected');
+        });
+
+        socket.on('message', function (msg) {
+            $("#chat").append('<h1 class="red">' + msg + '</h1>');
+            setInterval(updateScroll,1000);
+            console.log('received');
+        });
+
+        $('#sendmess').on('click', function () {
+            socket.send($('#mymes').val());
+            $('#mymes').val('');
+        });
+    });
+        var scrolled = false;
+function updateScroll(){
+    if(!scrolled){
+        var element = document.getElementById("chat");
+        element.scrollTop = element.scrollHeight;
+    }
+}
+
+$("#chat").on('scroll', function(){
+    scrolled=true;
+});
+
+    </script>
     <div class="name_recipient">
         <p class="name">{{ name }}</p>
     </div>
-    <div class="messages">
+    <div id="chat" class="messages prokrutka">
 
     </div>
-    <div>
+    <div class="send_out">
+        <input class="send_messages" id="mymes" type="text" placeholder="Введите ваше сообщение">
+        <button id="sendmess" class="send">Отправить</button>
+
+    <!--
         <form method="post" class="send_out">
-            <input class="send_messages" name="mes" id="mes" type="text" placeholder="Введите ваше сообщение.">
-            <input type="submit" class="send" value="Отправить">
+            <input class="send_messages" name="mes" id="mes" type="text" placeholder="Введите ваше сообщение">
+            <input id="sendmess" type="submit" class="send" value="Отправить">
         </form>
+     -->
     </div>
+
 {% endblock %}
