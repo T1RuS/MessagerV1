@@ -14,8 +14,9 @@
 
         socket.on('message', function (msg) {
             $("#chat").append('<h1 class="red">' + msg + '</h1>');
-            setInterval(updateScroll,1000);
-            console.log('received');
+             console.log('received');
+            var block = document.getElementById("chat");
+            block.scrollTop = 9999;
         });
 
         $('#sendmess').on('click', function () {
@@ -23,17 +24,6 @@
             $('#mymes').val('');
         });
     });
-        var scrolled = false;
-function updateScroll(){
-    if(!scrolled){
-        var element = document.getElementById("chat");
-        element.scrollTop = element.scrollHeight;
-    }
-}
-
-$("#chat").on('scroll', function(){
-    scrolled=true;
-});
 
     </script>
     <div class="name_recipient">
