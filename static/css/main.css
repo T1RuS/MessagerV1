@@ -120,6 +120,7 @@ body {
 }
 
 .message {
+    border: 1px solid #6e6868;
     background: rgba(60, 63, 65, 0.50);
     margin-top: 50px;
     margin-left: 20px;
@@ -168,6 +169,7 @@ body {
 }
 
 .name_recipient {
+    border: 1px solid #6e6868;
     width: 990px;
     height: 50px;
     background: rgba(115, 113, 113, 0.41);
