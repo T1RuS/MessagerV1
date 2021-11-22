@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for
-from flask_socketio import SocketIO, send, emit
+from flask_socketio import SocketIO, send, emit, namespace, join_room, leave_room
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -97,13 +97,34 @@ def data(name):
         print(request.form['mes'])
         print(name)
         print(current_user.login)
-    return render_template('message.html', name=name, friends=db.session.query(User.login).all())
+    return render_template('message.html', friend=name, friends=db.session.query(User.login).all(), user=current_user.login)
 
 
 @socketio.on('message')
-def handleMessage(msg):
+def handleMessage(data):
+    #username = data['username']
+    print(data)
+    room = data['room']
+    msg = data['message']
     print('message: ' + msg)
-    send(msg, broadcast=True)
+    send(msg, to=room)
+
+
+@socketio.on('join')
+def on_join(data):
+    username = data['username']
+    room = data['room']
+    join_room(room)
+    print(username, room)
+    send(username + ' has entered the room.', to=room)
+
+
+@socketio.on('leave')
+def on_leave(data):
+    username = data['username']
+    room = data['room']
+    leave_room(room)
+    send(username + ' has left the room.', to=room)
 
 
 if __name__ == '__main__':

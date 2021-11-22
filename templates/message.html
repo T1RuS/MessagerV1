@@ -9,7 +9,8 @@
         var socket = io.connect('http://127.0.0.1:5000');
 
         socket.on('connect', function() {
-            socket.send('User has connected');
+            socket.emit('join',{"room": "general", "username": '{{ user }}'});
+            //socket.send('User has connected');
         });
 
         socket.on('message', function (msg) {
@@ -20,13 +21,15 @@
         });
 
         $('#sendmess').on('click', function () {
-            socket.send($('#mymes').val());
+            socket.emit('message',{"room": "general", "username": '{{ user }}', "message": $('#mymes').val()});
+            //socket.emit('message', {"message": $('#mymes').val(), "room": "general", "username": '{{ user }}' });
+            //socket.send($('#mymes').val());
             $('#mymes').val('');
         });
     });
     </script>
     <div class="name_recipient">
-        <p class="name">{{ name }}</p>
+        <p class="name">{{ friend }}</p>
     </div>
     <div id="chat" class="messages prokrutka">
 
