@@ -9,7 +9,7 @@
         var socket = io.connect('http://127.0.0.1:5000');
 
         socket.on('connect', function() {
-            socket.emit('join',{"room": "general", "username": '{{ user }}'});
+            socket.emit('join',{"room": "{{ room }}", "username": '{{ user }}', "friend": '{{ friend }}' });
             //socket.send('User has connected');
         });
 
@@ -21,7 +21,7 @@
         });
 
         $('#sendmess').on('click', function () {
-            socket.emit('message',{"room": "general", "username": '{{ user }}', "message": $('#mymes').val()});
+            socket.emit('message',{"room": "{{ room }}", "username": '{{ user }}', "message": $('#mymes').val()});
             //socket.emit('message', {"message": $('#mymes').val(), "room": "general", "username": '{{ user }}' });
             //socket.send($('#mymes').val());
             $('#mymes').val('');

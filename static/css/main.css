@@ -51,7 +51,6 @@ body {
 }
 
 .logo {
-    position: absolute;
     margin-left: 45%;
     font-size: 40px;
 
@@ -218,4 +217,9 @@ body {
     width: 1000px;
     height: 100px;
     display: flex;
+}
+
+body {
+    width: 1920px;
+    height: 900px;
 }

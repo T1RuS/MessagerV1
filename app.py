@@ -15,10 +15,10 @@ socketio = SocketIO(app)
 login_manager = LoginManager(app)
 
 
-class Messages(db.Model, UserMixin):
+class messages(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     sender = db.Column(db.String(300), nullable=False)
-    recipient = db.Column(db.String(300), nullable=True)
+    room = db.Column(db.String(300), nullable=False)
     message = db.Column(db.String(300), nullable=False)
 
 
@@ -26,6 +26,12 @@ class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     login = db.Column(db.String(300), nullable=False)
     password = db.Column(db.String(300), nullable=False)
+
+
+class rooms(db.Model, UserMixin):
+    room = db.Column(db.Integer, primary_key=True)
+    user_one = db.Column(db.String(300), nullable=False)
+    user_two = db.Column(db.String(300), nullable=False)
 
 
 @login_manager.user_loader
@@ -93,11 +99,27 @@ def reg():
 @app.route('/message/<string:name>', methods=['POST', 'GET'])
 @login_required
 def data(name):
+    room = 'global'
+    user = current_user.login
+    if rooms.query.filter_by(user_one=user, user_two=name).first() or rooms.query.filter_by(user_one=name, user_two=user).first():
+        if rooms.query.filter_by(user_one=user, user_two=name).first():
+            room = rooms.query.filter_by(user_one=user, user_two=name).first()
+        elif rooms.query.filter_by(user_one=name, user_two=user).first():
+            room = rooms.query.filter_by(user_one=name, user_two=user).first()
+    else:
+        res = rooms(user_one=user, user_two=name)
+        try:
+            db.session.add(res)
+            db.session.commit()
+            room = db.session.query(rooms).order_by(rooms.room)[-1]
+        except:
+            pass
+
     if request.method == "POST":
         print(request.form['mes'])
         print(name)
         print(current_user.login)
-    return render_template('message.html', friend=name, friends=db.session.query(User.login).all(), user=current_user.login)
+    return render_template('message.html', friend=name, friends=db.session.query(User.login).all(), user=current_user.login, room=room.room)
 
 
 @socketio.on('message')
@@ -114,8 +136,10 @@ def handleMessage(data):
 def on_join(data):
     username = data['username']
     room = data['room']
+    friend = data['friend']
+    print(username, friend)
+    print(room)
     join_room(room)
-    print(username, room)
     send(username + ' has entered the room.', to=room)
 
 
