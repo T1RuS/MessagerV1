@@ -13,11 +13,20 @@
             //socket.send('User has connected');
         });
 
-        socket.on('message', function (msg) {
-            $("#chat").append('<h1 class="red">' + msg + '</h1>');
-             console.log('received');
-            var block = document.getElementById("chat");
-            block.scrollTop = 9999;
+        socket.on('message', function (data) {
+            if (data['user'] === '{{ user }}') {
+                $("#chat").append('<h1 class="user_mes">' + data["message"] + '</h1>');
+                console.log('received');
+                var block = document.getElementById("chat");
+                block.scrollTop = 9999;
+            }
+            else if (data["user"] === '{{ friend }}'){
+                $("#chat").append('<h1 class="friend_mes">' + data["message"] + '</h1>');
+                console.log('received');
+                var block = document.getElementById("chat");
+                block.scrollTop = 9999;
+            }
+            console.log(1)
         });
 
         $('#sendmess').on('click', function () {
@@ -32,7 +41,13 @@
         <p class="name">{{ friend }}</p>
     </div>
     <div id="chat" class="messages prokrutka">
-
+        {% for el in messages %}
+            {% if el.sender == user %}
+                <h1 class="user_mes">{{ el.message }}</h1>
+            {% elif el.sender == friend %}
+                <h1 class="friend_mes">{{ el.message }}</h1>
+            {% endif %}
+        {% endfor %}
     </div>
     <div class="send_out">
         <input class="send_messages" id="mymes" type="text" placeholder="Введите ваше сообщение">

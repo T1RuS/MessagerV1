@@ -223,3 +223,11 @@ body {
     width: 1920px;
     height: 900px;
 }
+
+.user_mes {
+    color: blue;
+}
+
+.friend_mes{
+    color: green;
+}

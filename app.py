@@ -101,11 +101,10 @@ def reg():
 def data(name):
     room = 'global'
     user = current_user.login
-    if rooms.query.filter_by(user_one=user, user_two=name).first() or rooms.query.filter_by(user_one=name, user_two=user).first():
-        if rooms.query.filter_by(user_one=user, user_two=name).first():
-            room = rooms.query.filter_by(user_one=user, user_two=name).first()
-        elif rooms.query.filter_by(user_one=name, user_two=user).first():
-            room = rooms.query.filter_by(user_one=name, user_two=user).first()
+    if rooms.query.filter_by(user_one=user, user_two=name).first():
+        room = rooms.query.filter_by(user_one=user, user_two=name).first()
+    elif rooms.query.filter_by(user_one=name, user_two=user).first():
+        room = rooms.query.filter_by(user_one=name, user_two=user).first()
     else:
         res = rooms(user_one=user, user_two=name)
         try:
@@ -115,21 +114,29 @@ def data(name):
         except:
             pass
 
+    messages_list = messages.query.filter_by(room=room.room).all()
+
     if request.method == "POST":
         print(request.form['mes'])
         print(name)
         print(current_user.login)
-    return render_template('message.html', friend=name, friends=db.session.query(User.login).all(), user=current_user.login, room=room.room)
+    return render_template('message.html', friend=name, friends=db.session.query(User.login).all(), user=current_user.login, room=room.room, messages=messages_list)
 
 
 @socketio.on('message')
 def handleMessage(data):
-    #username = data['username']
+    username = data['username']
     print(data)
     room = data['room']
     msg = data['message']
     print('message: ' + msg)
-    send(msg, to=room)
+    res = messages(sender=username, room=room, message=msg)
+    try:
+        db.session.add(res)
+        db.session.commit()
+    except:
+        pass
+    send({'message': msg, 'user': username}, to=room)
 
 
 @socketio.on('join')
@@ -139,8 +146,9 @@ def on_join(data):
     friend = data['friend']
     print(username, friend)
     print(room)
+    msg = username + ' has entered the room.'
     join_room(room)
-    send(username + ' has entered the room.', to=room)
+    #send({'message': msg, 'user': username}, to=room)
 
 
 @socketio.on('leave')
