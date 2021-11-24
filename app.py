@@ -51,7 +51,7 @@ def login():
             login_user(user)
             return redirect(url_for('main'))
         else:
-            return render_template('error_password.html')
+            return render_template('login.html')
     else:
         return render_template('login.html')
 
@@ -67,7 +67,7 @@ def logout():
 def main():
     try:
         print(current_user.login)
-        return render_template('main.html', friends=db.session.query(User.login).all())
+        return render_template('main.html', friends=db.session.query(User.login).all(), user=current_user.login)
     except:
         return render_template('user_anonim.html')
 
@@ -115,11 +115,6 @@ def data(name):
             pass
 
     messages_list = messages.query.filter_by(room=room.room).all()
-
-    if request.method == "POST":
-        print(request.form['mes'])
-        print(name)
-        print(current_user.login)
     return render_template('message.html', friend=name, friends=db.session.query(User.login).all(), user=current_user.login, room=room.room, messages=messages_list)
 
 
@@ -129,7 +124,6 @@ def handleMessage(data):
     print(data)
     room = data['room']
     msg = data['message']
-    print('message: ' + msg)
     res = messages(sender=username, room=room, message=msg)
     try:
         db.session.add(res)

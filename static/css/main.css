@@ -97,7 +97,7 @@ body {
 }
 
 .prokrutka {
-    border: 1px solid #6e6868; /* размер и цвет границы блока */
+    border: 1px solid #6e6868;
     overflow: auto; /* свойство дл€ прокрутки по горизонтали. јвтоматом, если больше блока */
 }
 
@@ -106,7 +106,7 @@ body {
 }
 
 .main {
-    text-align: center;
+
 }
 
 .friends-list {
@@ -124,7 +124,7 @@ body {
     margin-top: 50px;
     margin-left: 20px;
     height: 800px;
-    width: 1000px;
+    width: 1003px;
     border-radius: 20px;
 }
 
@@ -211,6 +211,7 @@ body {
 .name {
     color: #949191;
     font-size: 35px;
+    text-align: center;
 }
 
 .send_out {
@@ -225,9 +226,14 @@ body {
 }
 
 .user_mes {
-    color: blue;
+    color: #949191;
+    font-size: 20px;
+    margin-left: 20px;
+    margin-top: -10px;
 }
 
-.friend_mes{
-    color: green;
+.name_send{
+    color: #797676;
+    font-size: 15px;
+    margin-left: 20px;
 }

@@ -11,9 +11,11 @@
         <div class="flex hw">
             <div class="friends-list prokrutka">
             {% for el in friends %}
-                <div class="friends">
-                    <a class="friends-cur" href="/message/{{ el.login }}"> {{ el.login }} </a>
-                </div>
+                {% if el.login != user %}
+                    <div class="friends">
+                        <a class="friends-cur" href="/message/{{ el.login }}"> {{ el.login }} </a>
+                    </div>
+                {% endif %}
             {% endfor %}
             </div>
             <div class="message">

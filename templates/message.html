@@ -5,6 +5,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script type="text/javascript" charset="utf-8">
     $(document).ready(function (){
+        var block = document.getElementById("chat");
+                block.scrollTop = 9999;
 
         var socket = io.connect('http://127.0.0.1:5000');
 
@@ -15,15 +17,15 @@
 
         socket.on('message', function (data) {
             if (data['user'] === '{{ user }}') {
+                $("#chat").append('<h1 class="name_send">' + data["user"] + '</h1>');
                 $("#chat").append('<h1 class="user_mes">' + data["message"] + '</h1>');
                 console.log('received');
-                var block = document.getElementById("chat");
                 block.scrollTop = 9999;
             }
             else if (data["user"] === '{{ friend }}'){
-                $("#chat").append('<h1 class="friend_mes">' + data["message"] + '</h1>');
+                $("#chat").append('<h1 class="name_send">' + data["user"] + '</h1>');
+                $("#chat").append('<h1 class="user_mes">' + data["message"] + '</h1>');
                 console.log('received');
-                var block = document.getElementById("chat");
                 block.scrollTop = 9999;
             }
             console.log(1)
@@ -43,11 +45,14 @@
     <div id="chat" class="messages prokrutka">
         {% for el in messages %}
             {% if el.sender == user %}
+                <h1 class="name_send">{{ el.sender }}</h1>
                 <h1 class="user_mes">{{ el.message }}</h1>
             {% elif el.sender == friend %}
-                <h1 class="friend_mes">{{ el.message }}</h1>
+                <h1 class="name_send">{{ el.sender }}</h1>
+                <h1 class="user_mes">{{ el.message }}</h1>
             {% endif %}
         {% endfor %}
+
     </div>
     <div class="send_out">
         <input class="send_messages" id="mymes" type="text" placeholder="Введите ваше сообщение">
